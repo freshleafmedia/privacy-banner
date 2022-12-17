@@ -1,0 +1,79 @@
+privacy-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 5px solid #EEE;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 16px 32px;
+    z-index: 1000;
+
+    &[hidden] {
+        display: none;
+    }
+
+    privacy-banner-actions {
+        display: flex;
+        gap: 0.75rem;
+
+        button {
+            cursor: pointer;
+            white-space: pre;
+        }
+    }
+}
+
+privacy-overlay {
+    position: relative;
+    display: block;
+    z-index: 0;
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        backdrop-filter: blur(2px);
+        z-index: 7;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    &[hidden] {
+        &::before {
+            display: none;
+        }
+
+        privacy-overlay-message {
+            display: none;
+        }
+    }
+
+    &:not([hidden]) > privacy-aware-content {
+        opacity: 0.4;
+        pointer-events: none;
+    }
+
+    privacy-overlay-message {
+        top: 50%;
+        transform: translateY(-50%);
+        background: white;
+        border: 5px solid #EEE;
+        left: 3rem;
+        right: 3rem;
+        padding: 1.5rem;
+        position: absolute;
+        text-align: left;
+        z-index: 20;
+        margin: 0;
+    }
+}
+
+privacy-service {
+    display: none;
+}

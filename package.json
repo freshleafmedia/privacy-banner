@@ -1,0 +1,11 @@
+{
+  "name": "@freshleafmedia/privacy-banner",
+  "version": "1.0.0",
+  "description": "A service oriented privacy banner",
+  "main": "index.ts",
+  "author": "Freshleaf Media Ltd",
+  "license": "MIT",
+  "dependencies": {
+    "typescript-cookie": "^1.0.4"
+  }
+}
