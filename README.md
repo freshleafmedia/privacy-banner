@@ -127,8 +127,6 @@ When there is content which relies on a third party to function at all (eg YouTu
 
 ### Form with reCATPCHA
 
-A form using Google reCAPTCHA:
-
 ```html
 <privacy-overlay servicekey="google-recaptcha">
     <privacy-overlay-message>
@@ -174,8 +172,6 @@ A form using Google reCAPTCHA:
 ```
 
 ### Google Analytics
-
-A form using Google reCAPTCHA:
 
 ```html
 <privacy-banner hidden>
