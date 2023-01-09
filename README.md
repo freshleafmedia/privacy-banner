@@ -71,11 +71,11 @@ The banner should be added to the end of every page. If you have no 'omnipresent
     <privacy-banner-message>
         This website uses cookies and third-party services which may process your personal information.
         For more information, see our <a href="/privacy">privacy policy</a>.
-    </div>
+    </privacy-banner-message>
     <privacy-banner-actions>
         <button class="optIn">Allow all</button>
         <button class="optOut">Reject non-essential</button>
-    </div>
+    </privacy-banner-actions>
 </privacy-banner>
 ```
 
@@ -180,11 +180,11 @@ When there is content which relies on a third party to function at all (eg YouTu
             This website uses cookies and third-party services which may process your personal information.
             For more information, see our <a href="/privacy">privacy policy</a>.
         </p>
-    </div>
+    </privacy-banner-message>
     <privacy-banner-actions>
         <button class="optIn">Allow all</button>
         <button class="optOut">Reject non-essential</button>
-    </div>
+    </privacy-banner-actions>
 </privacy-banner>
 
 
@@ -192,7 +192,7 @@ When there is content which relies on a third party to function at all (eg YouTu
     key="google-analytics"
     name="Google Analytics"
     description="Used to asses how the website is used by visitors"
-    omnipresent="true"
+    omnipresent
 />
 
 <script>
