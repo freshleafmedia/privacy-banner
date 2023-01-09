@@ -24,8 +24,6 @@ Once bundled add the script to the end of the `<body>` element.
 
 ## Usage
 
-There are 4 parts:
-
 1. Declare Data Processors
 2. Banner
 3. Data Processor Scripts
@@ -64,7 +62,7 @@ Each of the ways your site processes private data is defined as a `<private-data
 
 ![consent banner example](assets/banner.png)
 
-The banner should be added to the end of every page. If you have no 'omnipresent' private-data-processors your users will never see this :tada:
+The banner should be added once to the end of every page. If you have no `omnipresent` private-data-processors your users will never see this :tada:
 
 ```html
 <privacy-banner hidden>
