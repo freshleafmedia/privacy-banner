@@ -1,11 +1,11 @@
-import {PrivacyService} from "./privacy-service";
+import {PrivateDataProcessor} from "./private-data-processor";
 
 export class PrivacyBanner extends HTMLElement
 {
-    protected services: PrivacyService[] = [];
+    protected dataProcessors: PrivateDataProcessor[] = [];
 
     connectedCallback() {
-        this.services = Array.from(document.querySelectorAll('privacy-service'));
+        this.dataProcessors = Array.from(document.querySelectorAll('private-data-processor'));
 
         if (this.hasAttribute('do-not-track') === true) {
             this.optOutAll();
@@ -32,8 +32,8 @@ export class PrivacyBanner extends HTMLElement
     }
 
     public setVisibility(): void {
-        const choicesPending = this.services
-                .find((service: PrivacyService): boolean => service.isPendingChoice() && service.omnipresent)
+        const choicesPending = this.dataProcessors
+                .find((dataProcessor: PrivateDataProcessor): boolean => dataProcessor.isPendingChoice() && dataProcessor.omnipresent)
             !== undefined
 
         if (choicesPending === true) {
@@ -51,71 +51,71 @@ export class PrivacyBanner extends HTMLElement
         this.setAttribute('hidden', 'true');
     }
 
-    public serviceIsEnabled(serviceKey: string): boolean {
+    public dataProcessorIsEnabled(processerKey: string): boolean {
         return this
-            .getServiceByKey(serviceKey)
+            .getServiceByKey(processerKey)
             .isEnabled()
     }
 
-    public optIn(service: PrivacyService): Promise<void> {
-        const promise = service.optIn()
+    public optIn(processerKey: PrivateDataProcessor): Promise<void> {
+        const promise = processerKey.optIn()
 
         promise.then(() => {
-            this.dispatchEvent(new CustomEvent('optIn', {detail: {service: service}}))
+            this.dispatchEvent(new CustomEvent('optIn', {detail: {dataProcessor: processerKey}}))
         })
 
         return promise;
     }
 
     public optInAll(): Promise<void[]> {
-        const promises = this.services
-            .map((service: PrivacyService): Promise<void> => this.optIn(service))
+        const promises = this.dataProcessors
+            .map((dataProcessor: PrivateDataProcessor): Promise<void> => this.optIn(dataProcessor))
 
         return Promise.all(promises);
     }
 
-    public optInByKey(serviceKey: string): Promise<void> {
-        return this.optIn(this.getServiceByKey(serviceKey));
+    public optInByKey(dataProcessorKey: string): Promise<void> {
+        return this.optIn(this.getServiceByKey(dataProcessorKey));
     }
 
-    public optOut(service: PrivacyService): Promise<void> {
-        const promise = service.optOut()
+    public optOut(dataProcessor: PrivateDataProcessor): Promise<void> {
+        const promise = dataProcessor.optOut()
 
         promise.then(() => {
-            this.dispatchEvent(new CustomEvent('optOut', {detail: {service: service}}))
+            this.dispatchEvent(new CustomEvent('optOut', {detail: {dataProcessor: dataProcessor}}))
         })
 
         return promise;
     }
 
     public optOutAll(): Promise<void[]> {
-        const promises = this.services
-            .map((service: PrivacyService): Promise<void> => this.optOut(service))
+        const promises = this.dataProcessors
+            .map((dataProcessor: PrivateDataProcessor): Promise<void> => this.optOut(dataProcessor))
 
         return Promise.all(promises);
     }
 
-    public optOutByKey(serviceKey: string): Promise<void> {
-        return this.optOut(this.getServiceByKey(serviceKey));
+    public optOutByKey(dataProcessorKey: string): Promise<void> {
+        return this.optOut(this.getServiceByKey(dataProcessorKey));
     }
 
     public optOutOfAllServicesPendingChoice(): Promise<void[]> {
-        const promises = this.services
-            .filter((service: PrivacyService): boolean => service.isPendingChoice())
-            .map((service: PrivacyService): Promise<void> => this.optOut(service))
+        const promises = this.dataProcessors
+            .filter((dataProcessor: PrivateDataProcessor): boolean => dataProcessor.isPendingChoice())
+            .map((dataProcessor: PrivateDataProcessor): Promise<void> => this.optOut(dataProcessor))
 
         return Promise.all(promises);
     }
 
-    protected getServiceByKey(key: string): PrivacyService {
-        const service = this.services
-            .find((service: PrivacyService): boolean => service.key === key);
+    protected getServiceByKey(key: string): PrivateDataProcessor {
+        const dataProcessor = this.dataProcessors
+            .find((dataProcessor: PrivateDataProcessor): boolean => dataProcessor.key === key);
 
-        if (typeof service === 'undefined') {
-            throw new Error(`Unknown service key ${key}`);
+        if (typeof dataProcessor === 'undefined') {
+            throw new Error(`Unknown data processor key ${key}`);
         }
 
-        return service;
+        return dataProcessor;
     }
 }
 

@@ -2,7 +2,7 @@ import {getCookie, setCookie} from "typescript-cookie";
 import {cookieOptions, cookiePrefix} from "../config";
 import {PrivacyAwareScript} from "./privacy-aware-script";
 
-export class PrivacyService extends HTMLElement
+export class PrivateDataProcessor extends HTMLElement
 {
     public key: string;
     public name: string;
@@ -45,12 +45,12 @@ export class PrivacyService extends HTMLElement
     }
 
     public enable(): void {
-        document.querySelectorAll<PrivacyAwareScript>(`privacy-aware-script[servicekey = "${this.key}"]`)
+        document.querySelectorAll<PrivacyAwareScript>(`privacy-aware-script[data-processor-key = "${this.key}"]`)
             .forEach((privacyAwareScriptEl): void => privacyAwareScriptEl.enable());
     }
 
     public disable(): void {
-        document.querySelectorAll<PrivacyAwareScript>(`privacy-aware-script[servicekey = "${this.key}"]`)
+        document.querySelectorAll<PrivacyAwareScript>(`privacy-aware-script[data-processor-key = "${this.key}"]`)
             .forEach((privacyAwareScriptEl): void => privacyAwareScriptEl.disable());
     }
 
@@ -63,4 +63,4 @@ export class PrivacyService extends HTMLElement
     }
 }
 
-customElements.define('privacy-service', PrivacyService);
+customElements.define('private-data-processor', PrivateDataProcessor);

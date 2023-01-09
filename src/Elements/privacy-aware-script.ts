@@ -3,14 +3,14 @@ import {PrivacyBanner} from "./privacy-banner";
 export class PrivacyAwareScript extends HTMLElement
 {
     protected enabled = false;
-    protected serviceKey: string;
+    protected dataProcessorKey: string;
     protected privacyBannerEl: PrivacyBanner;
 
     connectedCallback() {
-        this.serviceKey = this.getAttribute('servicekey')!;
+        this.dataProcessorKey = this.getAttribute('data-processor-key')!;
         this.privacyBannerEl = document.querySelector<PrivacyBanner>(`privacy-banner`)!
 
-        if (this.privacyBannerEl.serviceIsEnabled(this.serviceKey)) {
+        if (this.privacyBannerEl.dataProcessorIsEnabled(this.dataProcessorKey)) {
             this.enable();
         }
     }

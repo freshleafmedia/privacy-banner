@@ -26,18 +26,18 @@ Once bundled add the script to the end of the `<body>` element.
 
 There are 4 parts:
 
-1. Service definitions
+1. Declare Data Processors
 2. Banner
-3. Service scripts
-4. Opt-in content
+3. Data Processor Scripts
+4. Opt-in Content
 
 
-### Service Definitions
+### Declare Data Processors
 
-Each third party services your site uses is defined as a `<privacy-service>` element.
+Each of the ways your site processes private data is defined as a `<private-data-processor>` element.
 
 ```html
-<privacy-service
+<private-data-processor
     key="google-recaptcha"
     name="Google reCAPTCHA"
     description="Used to prevent SPAM form submissions"
@@ -45,7 +45,7 @@ Each third party services your site uses is defined as a `<privacy-service>` ele
 ```
 
 ```html
-<privacy-service
+<private-data-processor
     key="google-analytics"
     name="Google Analytics"
     description="Used to asses how the website is used by visitors"
@@ -53,10 +53,10 @@ Each third party services your site uses is defined as a `<privacy-service>` ele
 />
 ```
 
-- **key** - This is the value the service is referenced by
-- **name** - The full name of the service
-- **description** - What is the service being used for, why is it there
-- **omnipresent** - Whether the service is required on all pages. This is for things like analytics scripts
+- **key** - This is the value the data processor is referenced by
+- **name** - The full name of the data processor
+- **description** - What is the data processor being used for, why is it there
+- **omnipresent** - Whether the data processor is required on all pages. This is for things like analytics scripts
 
 
 
@@ -64,7 +64,7 @@ Each third party services your site uses is defined as a `<privacy-service>` ele
 
 ![consent banner example](assets/banner.png)
 
-The banner should be added to the end of every page. If you have no 'omnipresent' privacy-services your users will never see this :tada:
+The banner should be added to the end of every page. If you have no 'omnipresent' private-data-processors your users will never see this :tada:
 
 ```html
 <privacy-banner hidden>
@@ -80,16 +80,16 @@ The banner should be added to the end of every page. If you have no 'omnipresent
 ```
 
 
-### Service Scripts
+### Data Processor Scripts
 
-When you have scripts which will share data with third parties they need to be replaced with `<privacy-aware-script>`.
-Once consent for that service has been obtained the script will load like normal.
+When you have scripts which will process private data they need to be replaced with `<privacy-aware-script>`.
+Once consent for that processor has been obtained the script will load like normal.
 
 ```html
-<privacy-aware-script servicekey="google-recaptcha" src="path/to/your/script.js" async />
+<privacy-aware-script data-processor-key="google-recaptcha" src="path/to/your/script.js" async />
 ```
 
-- **servicekey** - This is the key of the related service
+- **data-processor-key** - This is the key of the related processor
 - All other properties are passed directly to the `<script>` when it is injected. Eg `async` `defer` etc
 
 
@@ -98,7 +98,7 @@ Once consent for that service has been obtained the script will load like normal
 When there is content which relies on a third party to function at all (eg YouTube embed) it should be wrapped in a `privacy-overlay`:
 
 ```html
-<privacy-overlay servicekey="google-recaptcha">
+<privacy-overlay data-processor-key="google-recaptcha">
     <privacy-overlay-message>
         <p>This form uses Google reCAPTCHA for spam prevention. Your permission is required to activate it as information may be shared with Google.</p>
         
@@ -118,7 +118,7 @@ When there is content which relies on a third party to function at all (eg YouTu
 </privacy-overlay>
 ```
 
-- **servicekey** - This is the key of the related service
+- **data-processor-key** - This is the key of the related data processor
 
 ![Contact form with a privacy overlay asking the user for consent](assets/overlay.png)
 
@@ -128,7 +128,7 @@ When there is content which relies on a third party to function at all (eg YouTu
 ### Form with reCATPCHA
 
 ```html
-<privacy-overlay servicekey="google-recaptcha">
+<privacy-overlay data-processor-key="google-recaptcha">
     <privacy-overlay-message>
         <p>This form uses Google reCAPTCHA for spam prevention. Your permission is required to activate it as information may be shared with Google.</p>
 
@@ -162,13 +162,13 @@ When there is content which relies on a third party to function at all (eg YouTu
     </div>
 </privacy-banner>
 
-<privacy-service
+<private-data-processor
     key="google-recaptcha"
     name="Google reCAPTCHA"
     description="Used to prevent SPAM form submissions"
 />
 
-<privacy-aware-script servicekey="google-recaptcha" src="path/to/recaptcha.js" />
+<privacy-aware-script data-processor-key="google-recaptcha" src="path/to/recaptcha.js" />
 ```
 
 ### Google Analytics
@@ -188,7 +188,7 @@ When there is content which relies on a third party to function at all (eg YouTu
 </privacy-banner>
 
 
-<privacy-service
+<private-data-processor
     key="google-analytics"
     name="Google Analytics"
     description="Used to asses how the website is used by visitors"
@@ -201,7 +201,7 @@ When there is content which relies on a third party to function at all (eg YouTu
     _gaq.push(['_trackPageview']);
 </script>
 
-<privacy-aware-script servicekey="google-analytics" src="https://ssl.google-analytics.com/ga.js" />
+<privacy-aware-script data-processor-key="google-analytics" src="https://ssl.google-analytics.com/ga.js" />
 ```
 
 
@@ -213,10 +213,10 @@ The [included styles](src/styles.scss), are intentionally left plain and designe
 
 ## How it works
 
-The `<privacy-banner>` element acts as the 'source of truth' of which services there are and if they are enabled.
+The `<privacy-banner>` element acts as the 'source of truth' of which data processors there are and if they are enabled.
 
-Whenever a service is enabled, either via the banner or an overlay, events are fired. These events are listened for by all
-elements which can be affected. They then adjust their state accordingly.
+Whenever a data processor is enabled, either via the banner or an overlay, events are fired. These events are listened
+for by all elements which can be affected. They then adjust their state accordingly.
 
 
 ## License

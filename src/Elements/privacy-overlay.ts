@@ -2,12 +2,12 @@ import {PrivacyBanner} from "./privacy-banner";
 
 export class PrivacyOverlay extends HTMLElement
 {
-    protected serviceKey: string;
+    protected dataProcessorKey: string;
     protected privacyBannerEl: PrivacyBanner;
     protected messageEl: HTMLElement;
 
     connectedCallback() {
-        this.serviceKey = this.getAttribute('servicekey')!;
+        this.dataProcessorKey = this.getAttribute('data-processor-key')!;
         this.privacyBannerEl = document.querySelector<PrivacyBanner>(`privacy-banner`)!
         this.messageEl = this.querySelector(`privacy-overlay-message`)!
 
@@ -20,18 +20,18 @@ export class PrivacyOverlay extends HTMLElement
         this.messageEl
             .querySelector('button')!
             .addEventListener('click', (e) => {
-                this.privacyBannerEl.optInByKey(this.serviceKey);
+                this.privacyBannerEl.optInByKey(this.dataProcessorKey);
             });
     }
 
     public setVisibility(): void {
-        if (this.privacyBannerEl.serviceIsEnabled(this.serviceKey) === true) {
+        if (this.privacyBannerEl.dataProcessorIsEnabled(this.dataProcessorKey) === true) {
             this.hide();
 
             return;
         }
 
-        if (this.privacyBannerEl.serviceIsEnabled(this.serviceKey) === false) {
+        if (this.privacyBannerEl.dataProcessorIsEnabled(this.dataProcessorKey) === false) {
             this.show();
 
             return;
